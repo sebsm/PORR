@@ -1,87 +1,73 @@
-#importy
-
-import math
 import random
-import sys
+import math
 
-# dane 
 
-n1=2   # liczba członków populacji
-n2=10
-n3=20
-n4=50
-n5=100
+class FireflyAlgorithm():
 
-# definicja klasy
-class FireflyAlgorith():
+    def __init__(self, d, n, nfe, alpha, betamin, gamma, LB, UB, function):
+        self.d = d  # rozmiar wymiarów
+        self.n = n  # rozmiar populacji
+        self.nfe = nfe  # liczba iteracji
+        self.alpha = alpha  # parametr alpha
+        self.betamin = betamin  # parametr beta
+        self.gamma = gamma  # parametr gamma
 
-    def __init__(self, d, n, nfes, alpha, beta_min, gamma, LB, UB): 
-        self.alpha = 1.0 # parametr losowości, gdzie 1 - bardzo losowy
-        self.n = n
-        self.beta_min = 1.0 # współczynnik atrakycjności
-        self.gamma = 0.01 # wspólczynnik absorpcji światła/dążenia (?)
-        self.theta = 0.95 # 
-        self.d = d # liczba przestrzeni/wymiarów
-        self.nfes = 100 # ilośc iteracji/ewaluacji
-
-        # macierz świetlików
+        # sortowanie świetlików w zależności od funkcji dopasowania
         self.Index = [0] * self.n
-        print(self.Index)
-        self.Fireflies = [0 for i in range(self.d)
-            for j in range(self.n)]
-        print(self.Fireflies)
-
-        self.Fireflies_temporary = [[0 for i in range(self.n)] for j in range(self.n)]
-        print(self.Fireflies_temporary)
-
-        # dopasowanie
-        self.Fitness = [0.0] * self.n
-        self.I = [0.0] * self.n # intensywność światła 
-        self.nbest = [0.0] * self.n
-        self.LB = LB
-        self.UB = UB
-        self.fbest = None
+        self.Fireflies = [[0 for i in range(self.d)]
+                          for j in range(self.n)]  # init świetlików
+        self.Fireflies_tmp = [[0 for i in range(self.d)] for j in range(
+            self.n)]  # tymczasowa populacja
+        self.Fitness = [0.0] * self.n  # wartosci dopasowania
+        self.I = [0.0] * self.n  # intensywność światła
+        self.nbest = [0.0] * self.n  # najlepsze znalezione rozwiązanie
+        self.LB = LB  # dolne ograniczenie
+        self.UB = UB  # górne ograniczenie
+        self.fbest = None  # najlepszy
         self.evaluations = 0
         self.Fun = function
 
     def init_ffa(self):
         for i in range(self.n):
             for j in range(self.d):
-                self.Fireflies[i][j] = random.uniform(0,1) * (self.UB - self.LB) + self.LB
-            self.Fitness[i] = 1.0
+                self.Fireflies[i][j] = random.uniform(
+                    0, 1) * (self.UB - self.LB) + self.LB
+            self.Fitness[i] = 1.0  # dopasowanie
             self.I[i] = self.Fitness[i]
-    
+
     def alpha_new(self, a):
         delta = 1.0 - math.pow((math.pow(10.0, -4.0) / 0.9), 1.0 / float(a))
         return (1 - delta) * self.alpha
 
-    def sort_ffa(self): # sortowanie bąbelkowe
+    def sort_ffa(self):  # sortowanie bąbelkowe
         for i in range(self.n):
             self.Index[i] = i
-            
+
         for i in range(0, (self.n - 1)):
             j = i + 1
             for j in range(j, self.n):
-                if (self.I[i]) > self.I[j]:
-                    z = self.I[i]
+                if (self.I[i] > self.I[j]):
+                    z = self.I[i]  # wymiana atrakcyjności
                     self.I[i] = self.I[j]
                     self.I[j] = z
-                    z = self.Fitness[i]
+                    z = self.Fitness[i]  # wymiana dopasowania
                     self.Fitness[i] = self.Fitness[j]
                     self.Fitness[j] = z
-                    z = self.Index[i]
-                    self.Index[i]=self.Index[j]
+                    z = self.Index[i]  # wymiana indexów
+                    self.Index[i] = self.Index[j]
                     self.Index[j] = z
 
-    def replace_ffa(self):
+    def replace_ffa(self):  # wymiana starej populacji w powiązaniu z nowymi wartosciami Indexów
+        # skopiowanie oryginalnej populacji do tymczasowej
         for i in range(self.n):
             for j in range(self.d):
-                self.Fireflies_temporary[i][j] = self.Fireflies[i][j]
-    
-        for i in range(self.m):
+                self.Fireflies_tmp[i][j] = self.Fireflies[i][j]
+
+        # wymiana populacji w nawiązaniu do algorytmu ewolucyjnego
+        for i in range(self.n):
             for j in range(self.d):
-                self.Fireflies[i][j] = self.Fireflies_temporary[self.Index[i]][j]
-            
+                self.Fireflies[i][j] = self.Fireflies_tmp[self.Index[i]][j]
+
     def FindLimits(self, k):
         for i in range(self.d):
             if self.Fireflies[k][i] < self.LB:
@@ -95,56 +81,41 @@ class FireflyAlgorith():
             for j in range(self.n):
                 r = 0.0
                 for k in range(self.d):
-                    r += (self.Fireflies[i][k] - self.Fireflies[j][k] * (self.Fireflies[i][k] - self.Fireflies[j][k]))
+                    r += (self.Fireflies[i][k] - self.Fireflies[j][k]) * \
+                        (self.Fireflies[i][k] - self.Fireflies[j][k])
                 r = math.sqrt(r)
-                if self.I[i] > self.I[j]:
+                if self.I[i] > self.I[j]:  # jaśniejsze i bardziej atrakcyjne
                     beta0 = 1.0
-                    beta = (beta0 - self.beta_min) * math.exp(-self.gamma * math.pow(r, 2.0)) + self.beta_min
+                    beta = (beta0 - self.betamin) * \
+                        math.exp(-self.gamma * math.pow(r, 2.0)) + self.betamin
                     for k in range(self.d):
                         r = random.uniform(0, 1)
-                        tmpf = self.aplpha * (r - 0.5) * scale
-                        self.Fireflies[i][k] = self.Fireflies[i][k] * (1.0 - beta) + self.Fireflies_temporary[j][k] * beta + tmpf
-                self.FindLimits(i)
+                        tmpf = self.alpha * (r - 0.5) * scale
+                        self.Fireflies[i][k] = self.Fireflies[i][
+                            k] * (1.0 - beta) + self.Fireflies_tmp[j][k] * beta + tmpf
+            self.FindLimits(i)
 
     def Run(self):
         self.init_ffa()
+        
+        while self.evaluations < self.nfe:
 
+            # opcjonalna redukcja alphy
+            self.alpha = self.alpha_new(self.nfe/self.n)
 
-        while self.evaluations < self.nfes:
-
-            self.alpha = self.alpha_new(self.nfes/self.n)
-
-
+            # evaluate new solutions
             for i in range(self.n):
                 self.Fitness[i] = self.Fun(self.d, self.Fireflies[i])
                 self.evaluations = self.evaluations + 1
                 self.I[i] = self.Fitness[i]
 
+            # ocena świetlików pod kątem jasności
             self.sort_ffa()
-
+            # wymiana starej populacji
             self.replace_ffa()
-
+            # znajdź najlepszego
             self.fbest = self.I[0]
-
+            # przeniesienie świetlików do lepszych pozycji
             self.move_ffa()
-
+        
         return self.fbest
-
-
-FireflyAlgorith(10,2,100,1.0,1.0,0.01,-10,10)
-print(sys.argv)
-# Zadanie 1
-
-
-
-
-
-
-
-
-
-
-# Zadanie 2
-
-
-
