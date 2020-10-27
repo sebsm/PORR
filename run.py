@@ -7,7 +7,16 @@ def Fun(d, sol):
     return val
 
 
+def Function1():
+    return val
+
+def Function2():
+    return val
+
+
 Algorithm = FireflyAlgorithm(10, 20, 2, 0.5, 0.2, 1.0, -40.0, 40.0, Fun)
+
+
 Best = Algorithm.Run()
 
 print(Best)
