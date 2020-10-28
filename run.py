@@ -18,5 +18,6 @@ Algorithm = FireflyAlgorithm(10, 20, 2, 0.5, 0.2, 1.0, -40.0, 40.0, Fun)
 
 
 Best = Algorithm.Run()
-
+Move = Algorithm
 print(Best)
+print(Move)

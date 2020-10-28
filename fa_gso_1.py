@@ -26,6 +26,7 @@ class FireflyAlgorithm():
         self.fbest = None  # najlepszy
         self.evaluations = 0
         self.Fun = function
+        
 
     def init_ffa(self):
         for i in range(self.n):
