@@ -1,4 +1,4 @@
-from fa_gso_1 import *
+from fa_1 import *
 
 def Fun(d, sol):
     val = 0.0
@@ -8,6 +8,7 @@ def Fun(d, sol):
 
 
 def Function1():
+    
     return val
 
 def Function2():

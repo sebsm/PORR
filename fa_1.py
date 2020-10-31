@@ -104,7 +104,7 @@ class FireflyAlgorithm():
             # opcjonalna redukcja alphy
             self.alpha = self.alpha_new(self.nfe/self.n)
 
-            # evaluate new solutions
+            # wyliczenie nowych rozwiązań
             for i in range(self.n):
                 self.Fitness[i] = self.Fun(self.d, self.Fireflies[i])
                 self.evaluations = self.evaluations + 1
