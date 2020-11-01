@@ -7,9 +7,9 @@ def Fun(d, sol):
     return val
 
 
-def Function1():
-    
-    return val
+def Function1(d):
+    fc = 0.0    
+    return sum(100.0*(x[1:]-x[:-1]**2.0)**2.0 + (1-x[:-1])**2.0)
 
 def Function2():
     return val
