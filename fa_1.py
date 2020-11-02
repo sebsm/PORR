@@ -83,7 +83,7 @@ class FireflyAlgorithm():
                 r = 0.0
                 for k in range(self.d):
                     r += (self.Fireflies[i][k] - self.Fireflies[j][k]) * \
-                        (self.Fireflies[i][k] - self.Fireflies[j][k])
+                         (self.Fireflies[i][k] - self.Fireflies[j][k])
                 r = math.sqrt(r)
                 if self.I[i] > self.I[j]:  # jaśniejsze i bardziej atrakcyjne
                     beta0 = 1.0
