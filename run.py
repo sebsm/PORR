@@ -10,13 +10,27 @@ def Fun(d, sol):
     return val
 
 
-def Function1(d,sol):
+def Function2(d,sol):
     fc = 0.0  
-    for i in range(d):
-        sol = numpy.array(sol)
+    sol = numpy.array(sol)
+    #for i in range(d):   
         #fc = sum(100.0*math.pow((sol[1:]-math.pow(sol[:-1],2.0)),2.0) + math.pow((1-sol[:-1]),2.0))
-        fc = sum(100.0*((sol[1:]-(sol[:-1]**2.0))**2.0) + ((1-sol[:-1])**2.0))
+    fc = sum(100.0*((sol[1:]-(sol[:-1]**2.0))**2.0) + ((1-sol[:-1])**2.0))
     return fc
+
+def Function1(d, sol):
+    fc = 0.0
+    fc_a = 0.0
+    fc_b = 0.0
+    sol = numpy.array(sol)
+    for i in range(d):
+        fc_a = (sol[i]**2.0)
+        fc_b = math.prod(math.cos(sol[i]/i))
+        return fc_a, fc_b
+    #fc = 1/40*sum(sol[:-1]**2.0) + 1 - math.prod(math.cos(sol[:-1]/sol.index(sol[:-1])))
+    fc_final = 1/40 * fc_a + 1 - fc_b
+    return fc_final
+
 
 
 
