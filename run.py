@@ -30,11 +30,13 @@ def Function2(d,sol):
     sol = numpy.array(sol)
     #for i in range(d):   
         #fc = sum(100.0*math.pow((sol[1:]-math.pow(sol[:-1],2.0)),2.0) + math.pow((1-sol[:-1]),2.0))
-    fc = sum(100.0*((sol[1:]-(sol[:-1]**2.0))**2.0) + ((1-sol[:-1])**2.0))
+    #fc = sum(100.0*((sol[1:]-(sol[:-1]**2.0))**2.0) + ((1-sol[:-1])**2.0))
+    for i in range(1,d-1,1):
+        fc = fc + (100.0*((sol[i+1]-(sol[i]**2.0))**2.0) + ((1-sol[i])**2.0))
     return fc
 
 
-Algorithm = FireflyAlgorithm(10, 20, 2, 0.5, 0.2, 1.0, -40.0, 40.0, Function1)
+Algorithm = FireflyAlgorithm(10, 2, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
 
 
 Best = Algorithm.Run()
