@@ -16,6 +16,6 @@ Przedstawić graficznie zbieżność obu algorytmów w wersji sekwencyjnej dla
 przypadku n=2: punkty w kolejnych iteracjach. Uwaga: przy badaniach wydajności
 nie wykorzystywać graficznego interfejsu.
 
-![Zadanie 1](/images/1.png)
+![Zadanie 1](https://raw.githubusercontent.com/selvert/PORR/master/images/1.PNG)
 
-![Zadanie 2](/images/2.png)
+![Zadanie 2](https://raw.githubusercontent.com/selvert/PORR/master/images/2.PNG)
