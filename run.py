@@ -16,23 +16,18 @@ def Function1(d, sol):
     sol = numpy.array(sol)
     for i in range(1,d,1):
         fc_a = fc_a +(sol[i-1]**2.0)
-        #fc_b = math.prod(math.cos(sol[i]/i))
         fc_b = fc_b * math.cos(sol[i-1]/i)
-        #return fc_a, fc_b
-    #fc = 1/40*sum(sol[:-1]**2.0) + 1 - math.prod(math.cos(sol[:-1]/sol.index(sol[:-1])))
-    fc_final = 1/40 * fc_a + 1 - fc_b
 
+    fc_final = 1/40 * fc_a + 1 - fc_b
     return fc_final
 
 
 def Function2(d,sol):
     fc = 0.0  
     sol = numpy.array(sol)
-    #for i in range(d):   
-        #fc = sum(100.0*math.pow((sol[1:]-math.pow(sol[:-1],2.0)),2.0) + math.pow((1-sol[:-1]),2.0))
-    #fc = sum(100.0*((sol[1:]-(sol[:-1]**2.0))**2.0) + ((1-sol[:-1])**2.0))
     for i in range(1,d-1,1):
         fc = fc + (100.0*((sol[i+1]-(sol[i]**2.0))**2.0) + ((1-sol[i])**2.0))
+        
     return fc
 
 
