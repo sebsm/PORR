@@ -83,7 +83,7 @@ class FireflyAlgorithm():
                 r = 0.0
                 for k in range(self.d):
                     r += (self.Fireflies[i][k] - self.Fireflies[j][k]) * \
-                         (self.Fireflies[i][k] - self.Fireflies[j][k])
+                        (self.Fireflies[i][k] - self.Fireflies[j][k])
                 r = math.sqrt(r)
                 if self.I[i] > self.I[j]:  # jaśniejsze i bardziej atrakcyjne
                     beta0 = 1.0
@@ -109,7 +109,7 @@ class FireflyAlgorithm():
                 self.Fitness[i] = self.Fun(self.d, self.Fireflies[i])
                 self.evaluations = self.evaluations + 1
                 self.I[i] = self.Fitness[i]
-
+                
             # ocena świetlików pod kątem jasności
             self.sort_ffa()
             # wymiana starej populacji
@@ -118,5 +118,6 @@ class FireflyAlgorithm():
             self.fbest = self.I[0]
             # przeniesienie świetlików do lepszych pozycji
             self.move_ffa()
-        
+            #print(self.Fireflies)
         return self.fbest
+
