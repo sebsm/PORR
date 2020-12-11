@@ -1,5 +1,5 @@
 import numpy
-from fa_1 import *
+from fa_1_seq import *
 import math
 import numpy as np
 
@@ -27,14 +27,22 @@ def Function2(d,sol):
     sol = numpy.array(sol)
     for i in range(1,d-1,1):
         fc = fc + (100.0*((sol[i+1]-(sol[i]**2.0))**2.0) + ((1-sol[i])**2.0))
-        
     return fc
 
 
-Algorithm = FireflyAlgorithm(10, 2, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
+Algorithm1 = FireflyAlgorithm(4, 2, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
+
+Algorithm2 = FireflyAlgorithm(4, 2, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
 
 
-Best = Algorithm.Run()
-Move = Algorithm
+
+
+Best = Algorithm1.Run()
+Move = Algorithm1
 print(Best)
 print(Move)
+
+Best2 = Algorithm2.Run()
+Move2 = Algorithm2
+print(Best2)
+print(Move2)
