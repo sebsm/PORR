@@ -2,6 +2,7 @@ import numpy
 from fa_1_seq import *
 import math
 import numpy as np
+import time
 
 def Fun(d, sol):
     val = 0.0
@@ -30,19 +31,48 @@ def Function2(d,sol):
     return fc
 
 
+# opis poszczególnych parmaetrów
+# class FireflyAlgorithm():
+    
+#     def __init__(self, d, n, nfe, alpha, betamin, gamma, LB, UB, function):
+#         self.d = d  # rozmiar wymiarów
+#         self.n = n  # rozmiar populacji
+#         self.nfe = nfe  # liczba iteracji
+#         self.alpha = alpha  # parametr alpha
+#         self.betamin = betamin  # parametr beta
+#         self.gamma = gamma  # parametr gamma
+
+#         # sortowanie świetlików w zależności od funkcji dopasowania
+#         self.Index = [0] * self.n
+#         self.Fireflies = [[0 for i in range(self.d)]
+#                           for j in range(self.n)]  # init świetlików
+#         self.Fireflies_tmp = [[0 for i in range(self.d)] for j in range(
+#             self.n)]  # tymczasowa populacja
+#         self.Fitness = [0.0] * self.n  # wartosci dopasowania
+#         self.I = [0.0] * self.n  # intensywność światła
+#         self.nbest = [0.0] * self.n  # najlepsze znalezione rozwiązanie
+#         self.LB = LB  # dolne ograniczenie
+#         self.UB = UB  # górne ograniczenie
+#         self.fbest = None  # najlepszy świetlik
+#         self.evaluations = 0 # liczba wykonania obliczenia wartości
+#         self.Fun = function # funkcja podlegająca rozwiązaniu
+
+
 Algorithm1 = FireflyAlgorithm(4, 2, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
 
 Algorithm2 = FireflyAlgorithm(4, 2, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
 
 
 
-
+start_time = time.time()
 Best = Algorithm1.Run()
-Move = Algorithm1
-print(Best)
-print(Move)
+#Move = Algorithm1
+print("Zadanie 1 \n", Best )
+#print(Move)
+print("--- %s seconds ---" % (time.time() - start_time))
 
 Best2 = Algorithm2.Run()
-Move2 = Algorithm2
-print(Best2)
-print(Move2)
+#Move2 = Algorithm2
+print("Zadanie 2 \n", Best2 )
+#print(Move2)
+print("--- %s seconds ---" % (time.time() - start_time))
