@@ -10,6 +10,7 @@ def Fun(d, sol):
         val = val + sol[i] * sol[i]
     return val
 
+# TODO - Validate it
 def Function1(d, sol):
     fc = 0.0
     fc_a = 0.0
@@ -22,7 +23,7 @@ def Function1(d, sol):
     fc_final = 1/40 * fc_a + 1 - fc_b
     return fc_final
 
-
+# TODO - Validate it
 def Function2(d,sol):
     fc = 0.0  
     sol = numpy.array(sol)
@@ -58,21 +59,27 @@ def Function2(d,sol):
 #         self.Fun = function # funkcja podlegająca rozwiązaniu
 
 
-Algorithm1 = FireflyAlgorithm(4, 2, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
+n_list = [2, 10, 20, 50, 100]
 
-Algorithm2 = FireflyAlgorithm(4, 2, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
+for n in n_list:
+    
+    Algorithm1 = FireflyAlgorithm(4, n, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
+    Algorithm2 = FireflyAlgorithm(4, n, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
 
+    print ('Rozmiar populacji: ' + str(n))
+    print ('\n')
+    start_time = time.time()
+    Best = Algorithm1.Run()
+    #Move = Algorithm1
+    print("Zadanie 1 \n", Best)
+    #print(Move)
+    print("--- %s seconds ---" % (time.time() - start_time))
 
-
-start_time = time.time()
-Best = Algorithm1.Run()
-#Move = Algorithm1
-print("Zadanie 1 \n", Best )
-#print(Move)
-print("--- %s seconds ---" % (time.time() - start_time))
-
-Best2 = Algorithm2.Run()
-#Move2 = Algorithm2
-print("Zadanie 2 \n", Best2 )
-#print(Move2)
-print("--- %s seconds ---" % (time.time() - start_time))
+    Best2 = Algorithm2.Run()
+    #Move2 = Algorithm2
+    print("Zadanie 2 \n", Best2)
+    #print(Move2)
+    print("--- %s seconds ---" % (time.time() - start_time))
+    
+    # TODO - Zrównoleglenie i analiza wynników
+    
