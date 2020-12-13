@@ -1,8 +1,9 @@
-import numpy
-from fa_1_seq import *
 import math
 import numpy as np
 import time
+
+from fa_1_seq import *
+from termcolor import colored
 
 def Fun(d, sol):
     val = 0.0
@@ -12,13 +13,13 @@ def Fun(d, sol):
 
 # TODO - Validate it
 def Function1(d, sol):
-    fc = 0.0
+    # fc = 0.0
     fc_a = 0.0
-    fc_b = 1.0
-    sol = numpy.array(sol)
+    fc_b = 0.0
+    sol = np.array(sol)
     for i in range(1,d,1):
-        fc_a = fc_a +(sol[i-1]**2.0)
-        fc_b = fc_b * math.cos(sol[i-1]/i)
+        fc_a = fc_a +(sol[i]**2.0)
+        fc_b = fc_b * math.cos(sol[i]/i)
 
     fc_final = 1/40 * fc_a + 1 - fc_b
     return fc_final
@@ -26,7 +27,7 @@ def Function1(d, sol):
 # TODO - Validate it
 def Function2(d,sol):
     fc = 0.0  
-    sol = numpy.array(sol)
+    sol = np.array(sol)
     for i in range(1,d-1,1):
         fc = fc + (100.0*((sol[i+1]-(sol[i]**2.0))**2.0) + ((1-sol[i])**2.0))
     return fc
@@ -61,22 +62,29 @@ def Function2(d,sol):
 
 n_list = [2, 10, 20, 50, 100]
 
-for n in range(len(n_list)):
-    Algorithm1 = FireflyAlgorithm(4, n_list[n], 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
-    Algorithm2 = FireflyAlgorithm(4, n_list[n], 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
-    print ('Rozmiar populacji: ' + str(n_list[n]))
-    print ('\n')
+for n in n_list:
+    
+    Algorithm1 = FireflyAlgorithm(4, n, 10, 1.0, 1.0, 0.01, -10.0, 10.0, Function1)
+    Algorithm2 = FireflyAlgorithm(4, n, 10, 1.0, 1.0, 0.01, -10.0, 10.0, Function2)
+    
+    print ('#################')
+    print (colored('Rozmiar populacji: ' + str(n), 'green'))
+    print(colored('Zadanie #1', attrs=['bold']))
+    
     start_time = time.time()
     Best = Algorithm1.Run()
-    #Move = Algorithm1
-    print("Zadanie 1 \n", Best)
-    #print(Move)
-    print("--- %s seconds ---" % (time.time() - start_time))
-    Best2 = Algorithm2.Run()
-    #Move2 = Algorithm2
-    print("Zadanie 2 \n", Best2)
-    #print(Move2)
-    print("--- %s seconds ---" % (time.time() - start_time))
     
+    print('Wynnik dla zadania #1: ', Best)
+    
+    print('Czas wykonania: %s sek. ' % colored((time.time() - start_time), attrs=['bold']))    
+    print('------------------')
+    print(colored('Zadanie #2', attrs=['bold']))
+    Best2 = Algorithm2.Run()
+    
+    print('Wynnik dla zadania #2: ', Best2)
+    
+    print('Czas wykonania: %s sek. ' % colored((time.time() - start_time), attrs=['bold']))
+    print ('#################')
+    print('')
     # TODO - Zrównoleglenie i analiza wynników
     
