@@ -61,12 +61,10 @@ def Function2(d,sol):
 
 n_list = [2, 10, 20, 50, 100]
 
-for n in n_list:
-    
-    Algorithm1 = FireflyAlgorithm(4, n, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
-    Algorithm2 = FireflyAlgorithm(4, n, 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
-
-    print ('Rozmiar populacji: ' + str(n))
+for n in range(len(n_list)):
+    Algorithm1 = FireflyAlgorithm(4, n_list[n], 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
+    Algorithm2 = FireflyAlgorithm(4, n_list[n], 10, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
+    print ('Rozmiar populacji: ' + str(n_list[n]))
     print ('\n')
     start_time = time.time()
     Best = Algorithm1.Run()
@@ -74,7 +72,6 @@ for n in n_list:
     print("Zadanie 1 \n", Best)
     #print(Move)
     print("--- %s seconds ---" % (time.time() - start_time))
-
     Best2 = Algorithm2.Run()
     #Move2 = Algorithm2
     print("Zadanie 2 \n", Best2)
