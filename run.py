@@ -12,7 +12,8 @@ def Fun(d, sol):
     return val
 
 # TODO - Validate it
-def Function1(d, sol):
+def Function1(d, sol, n):
+    n = n
     fc_a = 0.0
     fc_b = 0.0
     sol = np.array(sol)
@@ -24,11 +25,14 @@ def Function1(d, sol):
     return fc_final
 
 # TODO - Validate it
-def Function2(d,sol):
+def Function2(d,sol, n):
     fc = 0.0  
+    temp = 0.0
     sol = np.array(sol)
     for i in range(1,d-1,1):
-        fc = fc + (100.0*((sol[i+1]-(sol[i]**2.0))**2.0) + ((1-sol[i])**2.0))
+        temp = temp + (sol[i] - i)**2.0 
+        if temp <= n*10 == True:
+            fc = fc + (100.0*((sol[i+1]-(sol[i]**2.0))**2.0) + ((1-sol[i])**2.0))
     return fc
 
 
@@ -61,7 +65,6 @@ def Function2(d,sol):
 
 n_list = [2, 10, 20, 50, 100]
 
-
 for n in n_list:
     
     Algorithm1 = FireflyAlgorithm(4, n, 100, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
@@ -72,15 +75,15 @@ for n in n_list:
     print(colored('Zadanie #1', attrs=['bold']))
     
     start_time = time.time()
-    Best, iter_dict = Algorithm1.Run()
-    
+    #Best, iter_dict = Algorithm1.Run()
+    Best = Algorithm1.Run()
     print('Wynnik dla zadania #1: ', Best)
     
     print('Czas wykonania: %s sek. ' % colored((time.time() - start_time), attrs=['bold']))    
     print('------------------')
     print(colored('Zadanie #2', attrs=['bold']))
-    Best2, iter_dict = Algorithm2.Run()
-
+    #Best2, iter_dict = Algorithm2.Run()
+    Best2 = Algorithm2.Run()
     print('Wynnik dla zadania #2: ', Best2)
     
     print('Czas wykonania: %s sek. ' % colored((time.time() - start_time), attrs=['bold']))

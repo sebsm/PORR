@@ -13,5 +13,5 @@
         "test*.py"
     ],
     "python.testing.promptToConfigure": false,
-    "python.pythonPath": "/usr/local/anaconda3/envs/porr_py/bin/python"
+    "python.pythonPath": "C:\\Users\\Sebastian\\AppData\\Local\\Programs\\Python\\Python39\\python.exe"
 }

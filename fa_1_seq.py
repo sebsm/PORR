@@ -106,10 +106,9 @@ class FireflyAlgorithm():
 
             # wyliczenie nowych rozwiązań
             for i in range(self.n):
-                self.Fitness[i] = self.Fun(self.d, self.Fireflies[i])
-                self.evaluations = self.evaluations + 1
+                self.Fitness[i] = self.Fun(self.d, self.Fireflies[i], self.n)
                 self.I[i] = self.Fitness[i]
-                
+            self.evaluations = self.evaluations + 1   
             # ocena świetlików pod kątem jasności
             self.sort_ffa()
             # wymiana starej populacji
