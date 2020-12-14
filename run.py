@@ -13,7 +13,6 @@ def Fun(d, sol):
 
 # TODO - Validate it
 def Function1(d, sol):
-    # fc = 0.0
     fc_a = 0.0
     fc_b = 0.0
     sol = np.array(sol)
@@ -62,25 +61,26 @@ def Function2(d,sol):
 
 n_list = [2, 10, 20, 50, 100]
 
+
 for n in n_list:
     
-    Algorithm1 = FireflyAlgorithm(4, n, 10, 1.0, 1.0, 0.01, -10.0, 10.0, Function1)
-    Algorithm2 = FireflyAlgorithm(4, n, 10, 1.0, 1.0, 0.01, -10.0, 10.0, Function2)
+    Algorithm1 = FireflyAlgorithm(4, n, 100, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
+    Algorithm2 = FireflyAlgorithm(4, n, 100, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
     
     print ('#################')
     print (colored('Rozmiar populacji: ' + str(n), 'green'))
     print(colored('Zadanie #1', attrs=['bold']))
     
     start_time = time.time()
-    Best = Algorithm1.Run()
+    Best, iter_dict = Algorithm1.Run()
     
     print('Wynnik dla zadania #1: ', Best)
     
     print('Czas wykonania: %s sek. ' % colored((time.time() - start_time), attrs=['bold']))    
     print('------------------')
     print(colored('Zadanie #2', attrs=['bold']))
-    Best2 = Algorithm2.Run()
-    
+    Best2, iter_dict = Algorithm2.Run()
+
     print('Wynnik dla zadania #2: ', Best2)
     
     print('Czas wykonania: %s sek. ' % colored((time.time() - start_time), attrs=['bold']))

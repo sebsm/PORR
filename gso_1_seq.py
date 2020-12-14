@@ -16,13 +16,14 @@ class GlowwormSwarmOptimization:
     # influence_factor = 30
     # max_jitter = .2
     
-    def __init__(self, dims, num_worms, nturns, lower_bound, influence_factor, max_jitter):
+    def __init__(self, dims, num_worms, nturns, lower_bound, influence_factor, max_jitter, function):
         self.dims = dims # const value
         self.num_worms = num_worms # const value
         self.nturns = nturns # const value
         self.lower_bound = lower_bound # const value
         self.influence_factor = influence_factor # const value
         self.max_jitter = max_jitter # const value   
+        self.Fun = function
     
     def init_gso(self):
         return np.random.rand(self.num_worms,2) * 10
@@ -32,6 +33,9 @@ class GlowwormSwarmOptimization:
         x = xy_tuple[0]/2
         y = xy_tuple[1]/2
         return np.sin(x**3+ (y-5)**3) + np.cos((y-5)**2) *10 + np.cos(x*2) * 12 * (y-5)
+    
+    def fitness_function_1(self, xy_tuple):
+        self.Fun 
     
     def get_score(self, pop):
         temp = [(self.fitness_function(tup)) for tup in pop]
