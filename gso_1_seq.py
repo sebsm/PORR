@@ -16,23 +16,32 @@ class GlowwormSwarmOptimization:
     # influence_factor = 30
     # max_jitter = .2
     
-    def __init__(self, dims, num_worms, nturns, lower_bound, influence_factor, max_jitter, function):
+    def __init__(self, dims, num_worms, nturns, lower_bound, influence_factor, max_jitter):
         self.dims = dims # const value
         self.num_worms = num_worms # const value
         self.nturns = nturns # const value
         self.lower_bound = lower_bound # const value
         self.influence_factor = influence_factor # const value
         self.max_jitter = max_jitter # const value   
-        self.Fun = function
-    
+        
     def init_gso(self):
         return np.random.rand(self.num_worms,2) * 10
     
     def fitness_function(self, xy_tuple):
-        # TODO - Change for my fitness function
         x = xy_tuple[0]/2
         y = xy_tuple[1]/2
-        return np.sin(x**3+ (y-5)**3) + np.cos((y-5)**2) *10 + np.cos(x*2) * 12 * (y-5)
+        value = dist.euclidean(x, y)
+        
+        fc_a = 0.0
+        fc_b = 0.0
+        
+        sol = np.array(value)
+        for i in range(1,1):
+            fc_a = fc_a +(sol[i]**2.0)
+            fc_b = fc_b * math.cos(sol[i]/i)
+
+        fc_final = 1/40 * fc_a + 1 - fc_b
+        return fc_final
     
     def fitness_function_1(self, xy_tuple):
         self.Fun 
@@ -58,11 +67,6 @@ class GlowwormSwarmOptimization:
     def next_turn(self, pop, score, im):
         n_turn = copy.deepcopy(pop)
         
-        # X and Y movement is determined by the ratio of distance between worms and
-        # the radius of the influencing worm
-        # This ensures that closer worms will have more influence than further worms
-        # with the same pull, and at the same time worms with large influences will
-        # have more pull than other worms of the same distance
         for i in range(self.num_worms):
             x_move = 0
             y_move = 0
@@ -94,37 +98,6 @@ class GlowwormSwarmOptimization:
         for each in range(self.nturns):
             score = self.get_score(pop)
             
-            ### PLOT ###
-            plt.rcdefaults()
-            fig, ax = plt.subplots()
-            
-            x = np.arange(0, self.dims, 0.1)
-            y = np.arange(0, self.dims, 0.1)
-            xx, yy = np.meshgrid(x, y, sparse=True)
-            z = self.fitness_function([xx, yy])
-            im = plt.imshow(z, interpolation='bilinear', origin='lower', cmap=cm.gray, extent=(0, self.dims, 0, self.dims ))
-            plt.contour(x,y,z,alpha=0.1)
-            
-            plt.plot(pop[:,0], pop[:,1], 'ro' )
-            
-            ### UNCOMMENT THE FOLLOWING TO SEE WORMS INFLUENCE ###
-            patches = []
-            for i in range(0,self.num_worms):    
-                patches.append( mpatches.Circle((pop[i][0],pop[i][1]), score[i], ec = "none") )
-
-            colors = np.linspace(0, 1, len(patches))
-            collection = PatchCollection(patches, cmap=plt.cm.hsv, alpha=0.05)
-            collection.set_array(np.array(colors))
-            ax.add_collection(collection)
-            #####
-
-            # plt.show()
-            # print()
-            name = "0000000" + str(each)
-            name = name[-4:] + '.png'
-            if each in [1, 10, 25, 55, 80, 90]:
-                plt.savefig(name, bbox_inches='tight')
-
             im = self.influence_matrix(pop,score)
             pop = copy.deepcopy(self.next_turn(pop,score,im))
-            plt.close("all")
+        return pop
