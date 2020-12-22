@@ -2,7 +2,7 @@ import random
 import math
 
 
-class FireflyAlgorithm():
+class FireflyAlgorithm_2():
 
     def __init__(self, d, n, nfe, alpha, betamin, gamma, LB, UB, function):
         self.d = d  # rozmiar wymiarów
@@ -76,13 +76,13 @@ class FireflyAlgorithm():
             if self.Fireflies[k][i] > self.UB:
                 self.Fireflies[k][i] = self.UB
 
-    # def TaskConstraint(self, k):
-    #     for d in range(self.d): 
-    #         count = 0
-    #         count = count + (self.Fireflies[k][d] - k)**2.0
-    #         #print(count)
-    #         if count > self.n * 10:
-    #             self.Fireflies[k][d] = math.sqrt(self.n *10)
+    def TaskConstraint(self, k):
+        for d in range(self.d): 
+            count = 0
+            count = count + (self.Fireflies[k][d] - k)**2.0
+            #print(count)
+            if count > self.n * 10:
+                self.Fireflies[k][d] = math.sqrt(self.n *10)
 
     def move_ffa(self):
         for i in range(self.n):
@@ -102,7 +102,7 @@ class FireflyAlgorithm():
                         tmpf = self.alpha * (r - 0.5) * scale
                         self.Fireflies[i][k] = self.Fireflies[i][
                             k] * (1.0 - beta) + self.Fireflies_tmp[j][k] * beta + tmpf
-            # self.TaskConstraint(i)
+            self.TaskConstraint(i)
             self.FindLimits(i)
 
 
