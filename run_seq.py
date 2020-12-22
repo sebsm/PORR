@@ -1,3 +1,8 @@
+# 1) Dla duzych wymairów 
+# 2) Jakość wyników
+
+
+
 import math
 import numpy as np
 import time
@@ -68,6 +73,8 @@ def Function2(d,sol, n):
 #         self.evaluations = 0 # liczba wykonania obliczenia wartości
 #         self.Fun = function # funkcja podlegająca rozwiązaniu
 
+
+# Dla duzych d epsilon (0,01) powinien wynosic około 0,1, a dla niskich d powinien wynosić ok. 0,01 lub 0,001
 
 n_list = [2, 10, 20, 50, 100]
 
