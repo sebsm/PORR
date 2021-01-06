@@ -16,13 +16,14 @@ class GlowwormSwarmOptimization:
     # influence_factor = 30
     # max_jitter = .2
     
-    def __init__(self, dims, num_worms, nturns, lower_bound, influence_factor, max_jitter):
+    def __init__(self, dims, num_worms, nturns, lower_bound, influence_factor, max_jitter, function):
         self.dims = dims # const value
         self.num_worms = num_worms # const value
         self.nturns = nturns # const value
         self.lower_bound = lower_bound # const value
         self.influence_factor = influence_factor # const value
         self.max_jitter = max_jitter # const value   
+        self.Fun = function
         
     def init_gso(self):
         return np.random.rand(self.num_worms,2) * 10
@@ -32,19 +33,9 @@ class GlowwormSwarmOptimization:
         y = xy_tuple[1]/2
         value = dist.euclidean(x, y)
         
-        fc_a = 0.0
-        fc_b = 0.0
-        
-        sol = np.array(value)
-        for i in range(1,1):
-            fc_a = fc_a +(sol[i]**2.0)
-            fc_b = fc_b * math.cos(sol[i]/i)
+        ret = self.Fun(1, value)
+        return ret
 
-        fc_final = 1/40 * fc_a + 1 - fc_b
-        return fc_final
-    
-    def fitness_function_1(self, xy_tuple):
-        self.Fun 
     
     def get_score(self, pop):
         temp = [(self.fitness_function(tup)) for tup in pop]
@@ -94,10 +85,13 @@ class GlowwormSwarmOptimization:
     
     def Run(self):
         pop = self.init_gso()
+        value_dict = {}
         
         for each in range(self.nturns):
             score = self.get_score(pop)
             
             im = self.influence_matrix(pop,score)
             pop = copy.deepcopy(self.next_turn(pop,score,im))
-        return pop
+            value_dict[each] = sorted(score)[0]
+            
+        return pop, value_dict
