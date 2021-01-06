@@ -1,5 +1,5 @@
 import math
-import pymp
+#import pymp
 import numpy as np
 import time
 
@@ -59,8 +59,8 @@ n_list = [2, 10, 20, 50, 100]
 glob_time = time.time()
 for n in [2]:
     
-    Algorithm1 = FireflyAlgorithm(4, n, 100, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
-    Algorithm2 = FireflyAlgorithm(4, n, 100, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
+    Algorithm1 = FireflyAlgorithm(n, 100, 100, 1.0, 1.0, 0.01, -40.0, 40.0, Function1)
+    Algorithm2 = FireflyAlgorithm(n, 100, 100, 1.0, 1.0, 0.01, -40.0, 40.0, Function2)
     
     print ('#################')
     print (colored('Rozmiar populacji: ' + str(n), 'green'))
