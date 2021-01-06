@@ -12,5 +12,6 @@
         "-p",
         "test*.py"
     ],
-    "python.testing.promptToConfigure": false
+    "python.testing.promptToConfigure": false,
+    "python.pythonPath": "/usr/local/anaconda3/envs/porr_py/bin/python"
 }

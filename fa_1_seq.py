@@ -48,15 +48,14 @@ class FireflyAlgorithm():
             j = i + 1
             for j in range(j, self.n):
                 if (self.I[i] > self.I[j]):
-                    z = self.I[i]  # wymiana atrakcyjności
-                    self.I[i] = self.I[j]
-                    self.I[j] = z
-                    z = self.Fitness[i]  # wymiana dopasowania
-                    self.Fitness[i] = self.Fitness[j]
-                    self.Fitness[j] = z
-                    z = self.Index[i]  # wymiana indexów
-                    self.Index[i] = self.Index[j]
-                    self.Index[j] = z
+                    # wymiana atrakcyjności
+                    self.I[i], self.I[j] = self.I[j], self.I[i]
+                    
+                    # wymiana dopasowania
+                    self.Fitness[i], self.Fitness[j] = self.Fitness[j], self.Fitness[i]
+                    
+                    # wymiana indexów
+                    self.Index[i], self.Index[j] = self.Index[j], self.Index[i]
 
     def replace_ffa(self):  # wymiana starej populacji w powiązaniu z nowymi wartosciami Indexów
         # skopiowanie oryginalnej populacji do tymczasowej
@@ -99,6 +98,8 @@ class FireflyAlgorithm():
     def Run(self):
         self.init_ffa()
         
+        self.iteration_dict = {}
+        
         while self.evaluations < self.nfe:
 
             # opcjonalna redukcja alphy
@@ -107,9 +108,10 @@ class FireflyAlgorithm():
             # wyliczenie nowych rozwiązań
             for i in range(self.n):
                 self.Fitness[i] = self.Fun(self.d, self.Fireflies[i])
-                self.evaluations = self.evaluations + 1
                 self.I[i] = self.Fitness[i]
                 
+            self.evaluations = self.evaluations + 1
+            
             # ocena świetlików pod kątem jasności
             self.sort_ffa()
             # wymiana starej populacji
@@ -119,5 +121,8 @@ class FireflyAlgorithm():
             # przeniesienie świetlików do lepszych pozycji
             self.move_ffa()
             #print(self.Fireflies)
-        return self.fbest
+            
+            self.iteration_dict[self.evaluations] = self.fbest
+            
+        return self.fbest, self.iteration_dict
 
