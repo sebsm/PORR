@@ -1,9 +1,23 @@
-import time
-import numpy as np
 import math
-
+#import pymp
+import numpy as np
+import time
+import matplotlib.pyplot as plt
 from gso import glowworm_swarm_optimization
 from termcolor import colored
+
+from pyspark.sql import SparkSession
+from pyspark.conf import SparkConf
+install_requires=[
+        'pyspark=={site.SPARK_VERSION}'
+]
+
+def init_spark():
+        logFile = "README.md"  # Plik
+        spark = SparkSession.builder.appName("PORR").getOrCreate()
+        sc = spark.sparkContext
+        logData = spark.read.text(logFile).cache()
+        return spark, sc, logData
 
 ### ZMIENNE KONFIGURACYJNE ###
 DIMS_LIST = [2, 10, 20, 50, 100]
@@ -32,9 +46,15 @@ def Function2(d,sol):
     return fc
 
 glob_time = time.time()
-
-# for dims in DIMS_LIST:
 for dims in [2]:
+    spark, sc, logData = init_spark()
+
+    df = sc.parallelize([1,2,3,4,5])
+    df_all = df.collect()
+
+    empty_1 = spark.sparkContext.emptyRDD()
+    empty_2 = df = spark.sparkContext.parallelize([])
+    
     print ('#################')
     print (colored('Rozmiar populacji: ' + str(WORMS), 'green'))
     print(colored('Zadanie #1', attrs=['bold']))
@@ -58,15 +78,17 @@ for dims in [2]:
     print('Czas wykonania: %s sek. ' % colored((time.time() - start_time), attrs=['bold']))
     print ('#################')
     print('')
+    
+    spark.stop()
 
-# import matplotlib.pyplot as plt
-# plt.plot(iter_dict.keys(), iter_dict.values())
-# plt.xlabel('Iteracja')
-# plt.ylabel('Zbieznosc')
-# plt.show()
 
-# plt.plot(iter_dict2.keys(), iter_dict2.values())
-# plt.xlabel('Iteracja')
-# plt.ylabel('Zbieznosc')
-# plt.show()
-# print(f'Glob time: {time.time() - glob_time}')
+plt.plot(iter_dict.keys(), iter_dict.values())
+plt.xlabel('Liczba iteracji')
+plt.ylabel('Wartość funkcji celu')
+plt.show()
+
+plt.plot(iter_dict2.keys(), iter_dict2.values())
+plt.xlabel('Liczba iteracji')
+plt.ylabel('Wartość funkcji celu')
+plt.show()
+print(f'Glob time: {time.time() - glob_time}')
